@@ -63,7 +63,7 @@ const Weather = () => {
                             <h4>{temperature} {isFahrenheit? "F°": "C°"}</h4>
                         </div>
                         <div className='weather-specs'>
-                            <h4>{weather.weather?.[0].description}</h4>
+                            <h4>"{weather.weather?.[0].description}"</h4>
                             <ul>
                                 <li><b>Wind Speed: </b>{weather.wind?.speed} m/s</li>
                                 <li><b>Clouds: </b>{weather.clouds?.all} %</li>
