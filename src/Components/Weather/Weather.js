@@ -5,9 +5,10 @@ import "../Weather/weather.css"
 const Weather = () => {
 
     const [weather, setWeather]= useState({})
-    const [isKelvin, setIsKelvin]= useState(true)
+    const [isCelsius, setIsCelsius]= useState(true)
     const [temperature, setTemperature]= useState(0)
     const [isLoading, setIsLoading]= useState(true)
+    
 
     useEffect(()=>{
         navigator.geolocation.getCurrentPosition(success)
@@ -22,20 +23,20 @@ const Weather = () => {
      axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=a5a87624955220e76576e95ee858d367`)
      .then(res=>{
          setWeather(res.data)
-        setTemperature(Math.round(res.data.main.temp))
+        setTemperature(Math.round(res.data.main.temp-273.15))
         setIsLoading(false)
        
         })
     }
 
     const convertTemp =()=>{
-        if(isKelvin){
-            setTemperature( Math.round((temperature-273.15)) )
-            setIsKelvin(false)
+        if(isCelsius){
+            setTemperature( Math.round((temperature * 1.8) + 32) )
+            setIsCelsius(false)
         }
         else{
-            setTemperature(Math.round((temperature+273.15)))
-            setIsKelvin(true)
+            setTemperature(Math.round( (temperature - 32) / 1.8 ))
+            setIsCelsius(true)
         }
     }
 
@@ -60,7 +61,7 @@ const Weather = () => {
                     <div className='weather-container'>
                         <div className='weather-grades'>
                             <img src={`http://openweathermap.org/img/wn/${weather.weather?.[0]?.icon}@2x.png`} alt="" />
-                            <h4>{temperature} {isKelvin? "K°": "C°"}</h4>
+                            <h4>{temperature} {isCelsius? "C°": "F°"}</h4>
                         </div>
                         <div className='weather-specs'>
                             <h4>"{weather.weather?.[0].description}"</h4>
@@ -72,7 +73,7 @@ const Weather = () => {
                         </div>
                     </div>
                     <div className='weather-btn'>
-                        <button onClick={convertTemp}>Convert to {isKelvin? "C°": "K°"}</button>
+                        <button onClick={convertTemp}>Convert to {isCelsius? "F°": "C°"}</button>
 
                     </div>
                     </>
