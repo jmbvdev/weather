@@ -5,7 +5,7 @@ import "../Weather/weather.css"
 const Weather = () => {
 
     const [weather, setWeather]= useState({})
-    const [isFahrenheit, setIsFahrenheit]= useState(true)
+    const [isKelvin, setIsKelvin]= useState(true)
     const [temperature, setTemperature]= useState(0)
     const [isLoading, setIsLoading]= useState(true)
 
@@ -29,13 +29,13 @@ const Weather = () => {
     }
 
     const convertTemp =()=>{
-        if(isFahrenheit){
+        if(isKelvin){
             setTemperature( Math.round((temperature-273.15)) )
-            setIsFahrenheit(false)
+            setIsKelvin(false)
         }
         else{
             setTemperature(Math.round((temperature+273.15)))
-            setIsFahrenheit(true)
+            setIsKelvin(true)
         }
     }
 
@@ -60,7 +60,7 @@ const Weather = () => {
                     <div className='weather-container'>
                         <div className='weather-grades'>
                             <img src={`http://openweathermap.org/img/wn/${weather.weather?.[0]?.icon}@2x.png`} alt="" />
-                            <h4>{temperature} {isFahrenheit? "F°": "C°"}</h4>
+                            <h4>{temperature} {isKelvin? "K°": "C°"}</h4>
                         </div>
                         <div className='weather-specs'>
                             <h4>"{weather.weather?.[0].description}"</h4>
@@ -72,7 +72,7 @@ const Weather = () => {
                         </div>
                     </div>
                     <div className='weather-btn'>
-                        <button onClick={convertTemp}>Convert to {isFahrenheit? "C°": "F°"}</button>
+                        <button onClick={convertTemp}>Convert to {isKelvin? "C°": "K°"}</button>
 
                     </div>
                     </>
